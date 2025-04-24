@@ -1,0 +1,162 @@
+
+# API Documentation: Task Management API
+
+## Base URL:
+All the endpoints below are relative to the base URL:
+https://homtask1.onrender.com
+
+---
+
+## Endpoints:
+
+### 1. User Registration
+   - **Endpoint**: POST /register
+   - **Description**: Registers a new user with a username and password.
+   - **Request Body**:
+     ```json
+     {
+       "username": "newuser",
+       "password": "password123"
+     }
+     ```
+   - **Response**:
+     - **Status Code**: 201
+     - **Body**:
+       ```json
+       {
+         "message": "User registered successfully"
+       }
+       ```
+
+---
+
+### 2. User Login
+   - **Endpoint**: POST /login
+   - **Description**: Logs in a user and provides an authentication token.
+   - **Request Body**:
+     ```json
+     {
+       "username": "newuser",
+       "password": "password123"
+     }
+     ```
+   - **Response**:
+     - **Status Code**: 200
+     - **Body**:
+       ```json
+       {
+         "message": "Login successful",
+         "token": "your_jwt_token_here"
+       }
+       ```
+
+---
+
+### 3. Add a New Task
+   - **Endpoint**: POST /tasks
+   - **Description**: Adds a new task for the authenticated user.
+   - **Headers**:
+     - Authorization: Bearer <token>
+   - **Request Body**:
+     ```json
+     {
+       "title": "Task Title",
+       "description": "Task Description"
+     }
+     ```
+   - **Response**:
+     - **Status Code**: 201
+     - **Body**:
+       ```json
+       {
+         "message": "Task added successfully"
+       }
+       ```
+
+---
+
+### 4. View All Tasks
+   - **Endpoint**: GET /tasks
+   - **Description**: Retrieves all tasks for the authenticated user.
+   - **Headers**:
+     - Authorization: Bearer <token>
+   - **Response**:
+     - **Status Code**: 200
+     - **Body**:
+       ```json
+       [
+         {
+           "id": 1,
+           "title": "Task 1",
+           "description": "Task description",
+           "status": "pending"
+         },
+         {
+           "id": 2,
+           "title": "Task 2",
+           "description": "Another task",
+           "status": "completed"
+         }
+       ]
+       ```
+
+---
+
+### 5. Delete a Task
+   - **Endpoint**: DELETE /tasks/<task_id>
+   - **Description**: Deletes a specific task by its ID.
+   - **Headers**:
+     - Authorization: Bearer <token>
+   - **Response**:
+     - **Status Code**: 200
+     - **Body**:
+       ```json
+       {
+         "message": "Task deleted successfully"
+       }
+       ```
+
+---
+
+### 6. Update Task Status
+   - **Endpoint**: PATCH /tasks/<task_id>
+   - **Description**: Updates the status of a specific task.
+   - **Headers**:
+     - Authorization: Bearer <token>
+   - **Request Body**:
+     ```json
+     {
+       "status": "completed"
+     }
+     ```
+   - **Response**:
+     - **Status Code**: 200
+     - **Body**:
+       ```json
+       {
+         "message": "Task status updated successfully"
+       }
+       ```
+
+---
+
+## Authentication:
+All endpoints that require a logged-in user (i.e., adding tasks, viewing tasks, etc.) will require a JWT token in the Authorization header.
+
+- **Example**:
+  Authorization: Bearer <your_jwt_token>
+
+---
+
+### Error Responses:
+- **401 Unauthorized**: Missing or invalid token in the Authorization header.
+- **404 Not Found**: Task not found (for delete or update).
+- **400 Bad Request**: Missing fields in the request body.
+- **500 Internal Server Error**: If the server encounters an error.
+
+---
+
+### Notes:
+- The Authorization header is necessary for user-specific actions (e.g., viewing, adding, or deleting tasks).
+- Replace <task_id> with the actual ID of the task you want to delete or update.
+
